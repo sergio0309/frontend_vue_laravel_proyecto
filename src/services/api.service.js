@@ -15,7 +15,7 @@ export const BASE_URL_API = `${BASE_URL}/api`;
 
 export default function Api(){
     
-    const token = "BAC.XYZ.ZXC"
+    const token = localStorage.getItem("access_token")
 
     const api = axios.create({
         baseURL: BASE_URL_API,
@@ -32,7 +32,7 @@ export default function Api(){
         (error) => {
             // error 401 (auth)
             if (error.response?.status === 401){
-                location.href = "auth/login"
+                location.href = "/auth/login"
             }
 
             return Promise.reject(error)

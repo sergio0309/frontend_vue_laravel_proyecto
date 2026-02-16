@@ -28,13 +28,12 @@ router.beforeEach((to, from, next) =>{
 
   if(to.meta.requireAuth){
     if(!token){
-      return next({name: 'Login'})
-
+      return next({name: "Login"})
     }
     return next();
   }
   if(to.meta.redirectIfAuth && token ){
-    return next({name: 'MiPerfil'})
+    return next({name: "MiPerfil"})
   }
 
   return next()

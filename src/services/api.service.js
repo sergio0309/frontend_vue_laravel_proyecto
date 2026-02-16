@@ -32,6 +32,8 @@ export default function Api(){
         (error) => {
             // error 401 (auth)
             if (error.response?.status === 401){
+
+                localStorage.removeItem("access_token")
                 location.href = "/auth/login"
             }
 

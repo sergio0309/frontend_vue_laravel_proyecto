@@ -13,7 +13,7 @@
     </thead>
 
     <tbody>
-      <tr v-for="publi in publicaciones">
+      <tr v-for="publi in publicaciones" :key="publi.id">
         <td>{{ publi.id }}</td>
         <td>{{ publi.title }}</td>
         <td>{{ publi.description }}</td>

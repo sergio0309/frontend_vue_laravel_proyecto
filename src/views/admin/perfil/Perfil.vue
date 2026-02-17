@@ -3,6 +3,7 @@
     Nombre: {{ perfil.name }}
     <br>
     Correo: {{ perfil.email }}
+    <br>
 
     <button @click="funSalir()">SALIR</button>
 </template>

@@ -6,15 +6,46 @@ import Blog from '../views/web/Blog.vue'
 import Login from '../views/auth/Login.vue'
 import Perfil from '../views/admin/perfil/Perfil.vue'
 import Usuario from '../views/admin/usuario/Usuario.vue'
+import AppLayout from '@/layout/AppLayout.vue';
 
 const routes = [
-  { path: '/', component: Inicio },
-  { path: '/nosotros', component: Nosotros },
-  { path: '/servicios', component: Servicios },
-  { path: '/blog', component: Blog },
-  { path: '/auth/login', component: Login, name: 'Login', meta: {redirectIfAuth: true} },
-  { path: '/admin/perfil', component: Perfil, name: "MiPerfil" , meta: {requireAuth: true}},
-  { path: '/admin/usuario', component: Usuario, name: "MiUsuario" , meta: {requireAuth: true}},
+  {
+    path: '/',
+    component: Inicio 
+  },
+  {
+    path: '/nosotros',
+    component: Nosotros 
+  },
+  {
+    path: '/servicios',
+    component: Servicios 
+  },
+  {
+    path: '/blog',
+    component: Blog 
+  },
+  {
+    path: '/auth/login',
+    component: Login, name: 'Login',
+    meta: {redirectIfAuth: true} 
+  },
+  {
+    path: '/admin',
+    component: AppLayout,
+    children: [
+      {
+        path: 'perfil',
+        component: Perfil, name: "MiPerfil" ,
+        meta: {requireAuth: true}
+      },
+      {
+        path: 'usuario',
+        component: Usuario, name: "MiUsuario" ,
+        meta: {requireAuth: true}
+      },
+    ]
+  },
 ]
 
 const router = createRouter({

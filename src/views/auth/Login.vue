@@ -1,12 +1,12 @@
 <template>
     <h1>Login</h1>
     <label for="">Ingrese correo</label>
-    <input type="text" v-model="credenciales.email"><br>
+    <input type="text" v-model="credenciales.email" border="1"><br>
     {{ errors.email }}
     <br><br>
 
     <label for="">Ingrese contraseña</label>
-    <input type="password" v-model="credenciales.password"><br> 
+    <input type="password" v-model="credenciales.password" border="1"><br> 
     {{ errors.password }}
 
     <br><br>

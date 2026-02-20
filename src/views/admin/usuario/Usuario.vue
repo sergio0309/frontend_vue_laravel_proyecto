@@ -57,11 +57,11 @@
 
 <script setup>
 
-import ProgressSpinner from 'primevue/progressspinner';
+// import ProgressSpinner from 'primevue/progressspinner';
 import { onMounted, ref } from 'vue'; 
 import userService from '../../../services/user.service';
 
-    const cargando = ref(false)
+    const cargando = ref(true)
     const usuarios = ref([])
 
     onMounted(()=>{

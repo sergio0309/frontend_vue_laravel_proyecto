@@ -20,10 +20,8 @@
 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           <div class="bg-white shadow-lg rounded-md overflow-hidden" v-for="i in 6" :key="i">
-            <img
-              class="w-full h-64 object-cover"
-              src="https://cdn-dynmedia-1.microsoft.com/is/image/microsoftcorp/13-laptop-platinum-right-render-fy25:VP4-1260x795?fmt=png-alpha"
-              alt="Producto"
+            <Image src="https://cdn-dynmedia-1.microsoft.com/is/image/microsoftcorp/13-laptop-platinum-right-render-fy25:VP4-1260x795?fmt=png-alpha"
+            alt="Image"
             />
             <div class="p-4">
               <h3 class="text-xl font-semibold">Producto 1</h3>
@@ -40,3 +38,7 @@
       </div>
     </section>
 </template>
+
+<script setup>
+import Image from 'primevue/image';
+</script>

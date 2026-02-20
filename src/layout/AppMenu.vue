@@ -29,7 +29,12 @@ const model = ref([
             {
                 label: 'Roles',
                 icon: 'pi pi-fw pi-check-square',
-                to: '/uikit/input'
+                to: '/admin/role'
+            },
+            {
+                label: 'Datos Personales',
+                icon: 'pi pi-fw pi-check-square',
+                to: '/admin/persona'
             }
         ]
     },

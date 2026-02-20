@@ -16,7 +16,7 @@
                     </div>
                     <div v-else>
                         SIN CUENTA DE USUARIO
-                        <Button icon="pi pi-plus" severity="info" rounded class="m-2" @click="openDialog()"></Button>
+                        <Button icon="pi pi-plus" severity="info" rounded class="m-2" @click="openDialogUsuario(slotProps.data)"></Button>
                     </div>
                 </template>
             </Column>
@@ -49,16 +49,40 @@
             </div>
         </Dialog>
 
+        <Dialog v-model:visible="visibleUser" modal header="Datos Usuarios" :style="{ width: '25rem' }">
+            <span class="text-surface-500 dark:text-surface-400 block mb-8">Asigna Datos Usuario.</span>
+            <span class="dark:text-surface-200 block mb-8">NOMBRE:{{ persona.nombres }}</span>
+            <span class="dark:text-surface-200 block mb-8">APELLIDOS:{{ persona.apellidos }}</span>
+            <span class="dark:text-surface-200 block mb-8">CI:{{ persona.ci }}</span>
+            <div class="flex items-center gap-4 mb-8">
+                <label for="email" class="font-semibold w-24">Correo</label>
+                <InputText id="email" class="flex-auto" type="email" autocomplete="off" v-model="user.email"/><br>
+            </div>
+            <Message v-if="errors.email" severity="error" size="small" variant="simple">{{ errors.email  }}</Message>
+            <div class="flex items-center gap-4 mb-8">
+                <label for="password" class="font-semibold w-24">Contraseña</label>
+                <InputText id="password" class="flex-auto" type="password" autocomplete="off" v-model="user.password"/><br>
+            </div>
+            <Message v-if="errors.password" severity="error" size="small" variant="simple">{{ errors.password }}</Message>
+            <div class="flex justify-end gap-2">
+                <Button type="button" label="Cancelar" severity="secondary" @click="visibleUser = false"></Button>
+                <Button type="button" label="Guardar" @click="funAsignarUser()"></Button>
+            </div>
+        </Dialog>
+
     </div>
 </template>
 
 <script setup>
-    import { onMounted, ref } from 'vue';
+    import { onMounted, ref, watch } from 'vue';
     import personaService from '../../../services/persona.service';
 
     const personas = ref([]);
     const visible = ref(false)
+    const visibleUser = ref(false)
     const persona = ref({})
+    const user = ref({})
+    const errors = ref({})
 
     onMounted(() => {
         getPersonas()
@@ -71,6 +95,7 @@
 
     function openDialog(){
         visible.value = true
+        persona.value = {}
     }
 
     async function funGuardarPersona(){
@@ -78,6 +103,29 @@
         getPersonas()
         visible.value = false
 
+    }
+
+    function openDialogUsuario(per){
+        persona.value = per
+        visibleUser.value = true
+        user.value = {}
+    }
+    
+
+    async function funAsignarUser(){
+        try {
+            const { data } = await personaService.asignarUserPersona(persona.value.id, user.value)
+            visibleUser.value = false;
+            getPersonas()
+            persona.value = {}
+            user.value = {}
+        } catch (error) {
+            if(error.response){
+                errors.value = error.response.data?.errors
+                
+            }
+            
+        }
     }
 
 </script>

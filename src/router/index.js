@@ -10,6 +10,7 @@ import AppLayout from '@/layout/AppLayout.vue';
 import LayoutSitio from '../components/layoutsitio/LayoutSitio.vue'
 import Producto from '../views/web/Producto.vue'
 import Persona from '../views/admin/persona/Persona.vue'
+import Categoria from '../views/admin/inventario/categoria/Categoria.vue'
 
 const routes = [
 
@@ -62,6 +63,11 @@ const routes = [
       {
         path: 'persona',
         component: Persona, name: "Persona" ,
+        meta: {requireAuth: true}
+      },
+      {
+        path: 'categoria',
+        component: Categoria, name: "Categoria" ,
         meta: {requireAuth: true}
       },
     ]

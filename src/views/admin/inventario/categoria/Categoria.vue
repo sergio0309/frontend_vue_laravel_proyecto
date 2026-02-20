@@ -1,0 +1,5 @@
+<template>
+    <div class="card">
+        <h1>Categoria</h1>
+    </div>
+</template>

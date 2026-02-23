@@ -45,12 +45,12 @@ const model = ref([
             {
                 label: 'Categoria',
                 icon: 'pi pi-fw pi-eye',
-                to: '/admin/categoria'
+                to: '/admin/inventario/categoria'
             },
             {
                 label: 'Productos',
                 icon: 'pi pi-fw pi-globe',
-                target: '/admin/productos'
+                to: '/admin/inventario/producto'
             }
         ]
     },

@@ -13,6 +13,10 @@ import Persona from '../views/admin/persona/Persona.vue'
 import Inventario from '../views/admin/inventario/Inventario.vue'
 import Categoria from '../views/admin/inventario/categoria/Categoria.vue'
 import GestionProducto from '../views/admin/inventario/producto/Producto.vue'
+import Role from '../views/admin/role/Role.vue'
+import Pedido from '../views/admin/pedido/Pedido.vue'
+import NuevoPedido from '../views/admin/pedido/NuevoPedido.vue'
+import Cliente from '../views/admin/cliente/Cliente.vue'
 
 const routes = [
 
@@ -85,7 +89,26 @@ const routes = [
             meta: {requireAuth: true}
           },
         ]
-        // meta: {requireAuth: true}
+      },
+      {
+        path: 'role',
+        component: Role,
+        meta: {requireAuth: true}
+      },
+      {
+        path: 'pedido',
+        component: Pedido,
+        meta: {requireAuth: true}
+      },
+      {
+        path: 'pedido/nuevo',
+        component: NuevoPedido,
+        meta: {requireAuth: true}
+      },
+      {
+        path: 'cliente',
+        component: Cliente,
+        meta: {requireAuth: true}
       }
     ]
   },

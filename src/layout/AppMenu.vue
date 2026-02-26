@@ -61,17 +61,17 @@ const model = ref([
             {
                 label: 'Pedidos',
                 icon: 'pi pi-fw pi-table',
-                to: '/admin/pedidos'
+                to: '/admin/pedido'
             },
             {
                 label: 'Nuevo Pedido',
                 icon: 'pi pi-fw pi-box',
-                target: '/admin/nuevo Pedido'
+                to: '/admin/pedido/nuevo'
             },
             {
                 label: 'Clientes',
                 icon: 'pi pi-fw pi-users',
-                target: '/admin/nuevo Pedido'
+                to: '/admin/cliente'
             }
         ]
     },

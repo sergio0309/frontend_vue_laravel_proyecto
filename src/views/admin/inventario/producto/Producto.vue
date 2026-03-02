@@ -65,7 +65,9 @@
             <Column field="categoria.nombre" header="CATEGORIA" sortable style="min-width: 6rem"></Column>
             <Column field="estado" header="ESTADO" sortable style="min-width: 6rem">
                 <template #body="slotProps">
-                    <Tag :value="slotProps.data.estado" :severity="getStatusLabel(slotProps.data.estado)" />
+                    <!-- <Tag :value="slotProps.data.estado" :severity="getStatusLabel(slotProps.data.estado)" /> -->
+                    <Tag severity="success" value="ACTIVO" v-if="slotProps.data.estado"></Tag>
+                    <Tag severity="danger" value="INACTIVO" v-else></Tag>
                 </template>
             </Column>
             <Column :exportable="false" style="min-width: 12rem">
@@ -91,7 +93,7 @@
         </div>
     </Dialog>
 
-    <Dialog v-model:visible="productDialog" :style="{ width: '450px' }" header="Detalles del Prodcuto" :modal="true">
+    <Dialog v-model:visible="productDialog" :style="{ width: '450px' }" header="Detalles del Prodcuto" :modal="true" @hide="producto = {}">
         <div class="flex flex-col gap-6">
             <img v-if="producto.imagen" :src="`http://127.0.0.1:8000/${producto.imagen}`" :alt="producto.imagen" class="block m-auto pb-4" />
             <div>

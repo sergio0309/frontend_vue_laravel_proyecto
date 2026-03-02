@@ -80,12 +80,24 @@
                 <h3 class="text-xl font-semibold mb-4">cliente</h3>
                 <Button label="Nuevo Cliente" @click="visibleCliente = true"/>
                 <br><br>
-                <IconField>
-                    <InputIcon>
-                        <i class="pi pi-search" />
-                    </InputIcon>
-                    <InputText v-model="buscar" placeholder="Buscar..." @keyup.enter="getProductos()"/>
-                </IconField>
+                 <IconField>
+                        <InputIcon>
+                            <i class="pi pi-search" />
+                        </InputIcon>
+                        <InputText v-model="buscar_cliente" placeholder="Buscar..." @keyup.enter="getClienteBusqueda()" />
+                    </IconField>
+                <div class="card" v-if="cliente_seleccionado.id">
+                    <strong>NOMBRES: {{ cliente_seleccionado.nombre_completo }}</strong>
+                    <br>
+                    <strong>CI/NIT: {{ cliente_seleccionado.ci_nit }}</strong>
+                    <br>
+                    <strong>TELEFONO: {{ cliente_seleccionado.telefono }}</strong>
+                    <br>
+                    <strong>CORREO: {{ cliente_seleccionado.correo }}</strong>
+                    <br>
+                    <strong>DIRECCION: {{ cliente_seleccionado.direccion }}</strong>
+                    
+                </div>
                 
             </div>
 
@@ -97,25 +109,37 @@
 
                 </TexTarea>
                 <br><br>
-                <Button label="Generar Pedido" @click="visibleCliente = true"/>
+                <Button label="Generar Pedido" @click="funGuardarPedido()"/>
             </div>
 
         </div>
     </div>
 
     <Dialog v-model:visible="visibleCliente" modal header="Datos Cliente" :style="{ width: '25rem' }">
-        <span class="text-surface-500 dark:text-surface-400 block mb-8">Cliente.</span>
+        <span class="text-surface-500 dark:text-surface-400 block mb-8">Datos del Cliente.</span>
         <div class="flex items-center gap-4 mb-4">
-            <label for="username" class="font-semibold w-24">Nombre</label>
-            <InputText id="username" class="flex-auto" autocomplete="off" />
+            <label for="nc" class="font-semibold w-24">Nombre Completo</label>
+            <InputText id="nc" class="flex-auto" autocomplete="off" v-model="cliente.nombre_completo"/>
         </div>
         <div class="flex items-center gap-4 mb-8">
             <label for="email" class="font-semibold w-24">Correo</label>
-            <InputText id="email" class="flex-auto" autocomplete="off" />
+            <InputText id="email" class="flex-auto" autocomplete="off" v-model="cliente.correo"/>
+        </div>
+        <div class="flex items-center gap-4 mb-8">
+            <label for="ci_nit" class="font-semibold w-24">CI/NIT</label>
+            <InputText id="ci_nit" class="flex-auto" autocomplete="off" v-model="cliente.ci_nit"/>
+        </div>
+        <div class="flex items-center gap-4 mb-8">
+            <label for="tel" class="font-semibold w-24">Telefono</label>
+            <InputText id="tel" class="flex-auto" autocomplete="off" v-model="cliente.telefono"/>
+        </div>
+        <div class="flex items-center gap-4 mb-8">
+            <label for="dir" class="font-semibold w-24">Direccion</label>
+            <InputText id="dir" class="flex-auto" autocomplete="off" v-model="cliente.direccion"/>
         </div>
         <div class="flex justify-end gap-2">
             <Button type="button" label="Cancelar" severity="secondary" @click="visibleCliente = false"></Button>
-            <Button type="button" label="Guardar" @click="visibleCliente = false"></Button>
+            <Button type="button" label="Guardar" @click="funGuardar()"></Button>
         </div>
     </Dialog>
 </template>
@@ -123,6 +147,9 @@
 <script setup>
 import { onMounted, ref } from 'vue';
 import productoService from '@/services/producto.service'
+import clienteService from '../../../services/cliente.service';
+import Swal from 'sweetalert2';
+import pedidoService from '../../../services/pedido.service';
 
 const products = ref([])
 const buscar = ref("")
@@ -133,6 +160,9 @@ const dt = ref()
 const categorias = ref([])
 const carrito = ref([])
 const visibleCliente = ref(false)
+const cliente = ref({})
+const cliente_seleccionado = ref({})
+const buscar_cliente = ref("")
 
 onMounted(() => {
     getProductos()
@@ -152,6 +182,11 @@ const getProductos = async () =>{
 
     loading.value = false
 
+}
+
+const getClienteBusqueda = async () => {
+    const { data } = await clienteService.funBusquedaCliente(buscar_cliente.value)
+    cliente_seleccionado.value = data
 }
 
 const formatCurrency = (value) => {
@@ -178,7 +213,53 @@ const getStatusLabel = (status) => {
 
 
 const funAddCarrito = (prod) => {
-    carrito.value.push({producto_id: prod.di, cantidad: 1, precio: prod.precio, nombre: prod.nombre})
+    carrito.value.push({
+        id: prod.id,
+        cantidad: 1,
+        precio: prod.precio,
+        nombre: prod.nombre
+    })
+}
+
+const funGuardar = async () => {
+    try {
+        const { data } = await clienteService.funGuardar(cliente.value)
+        cliente_seleccionado.value = data.cliente
+        visibleCliente.value = false
+        cliente.value = {}
+
+        Swal.fire({
+            title: "Cliente Registado!",
+            text: "Ok para continuar!",
+            icon: "success"
+        });
+    } catch (error) {
+        visibleCliente.value = false
+        
+        Swal.fire({
+            title: "Error al registrar al cliente!",
+            text: "Ok para continuar!",
+            icon: "error"
+        });
+    }
+}
+
+const funGuardarPedido = async () => {
+    let datos = {
+        "cliente_id": cliente_seleccionado.value.id,
+        "productos": carrito.value
+    }
+
+    const { data } = pedidoService.funGuardar(datos);
+    
+    cliente_seleccionado.value = {}
+    carrito.value = []
+    
+    Swal.fire({
+        title: "Pedido Registado!",
+        text: "Ok para continuar!",
+        icon: "success"
+    });
 }
 
 </script>

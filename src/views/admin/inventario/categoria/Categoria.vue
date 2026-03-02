@@ -3,7 +3,7 @@
         <ProgressSpinner style="width: 50px; height: 50px" strokeWidth="8" fill="transparent"
             animationDuration=".5s" aria-label="Custom ProgressSpinner" v-if="cargando"/>
 
-        <Button label="Nueva Categoria" @click="funNuevoCategoria() = true"></Button>
+        <Button label="Nueva Categoria" @click="funNuevoCategoria()"></Button>
 
         <DataTable :value="categorias" tableStyle="min-width: 50rem">
             <Column field="id" header="ID"></Column>

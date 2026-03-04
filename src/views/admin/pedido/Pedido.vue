@@ -16,6 +16,7 @@
                 <template #body="slotProps">
                     
                     <Button label="Mostrar detalle Pedido" @click="abrirDetallePedido(slotProps.data)" />
+                    <Button label="Descargar Recibo" @click="generarPdfPedido(slotProps.data.id)" />
 
                 </template>
             </Column>
@@ -61,6 +62,22 @@ const getPedidos = async () => {
 const abrirDetallePedido = (det_pedido) => {
     pedido.value = det_pedido
     visiblePedido.value = true
+}
+
+const generarPdfPedido = async (id) => {
+
+    const response = await pedidoService.funReportePedido(id);
+
+    const blob = new Blob([response.data], { type: 'application/pdf' });
+        const url = window.URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', `recibo_pedido_${id}.pdf`);
+        document.body.appendChild(link);
+        link.click();
+
+        document.body.removeChild(link);
+        window.URL.revokeObjectURL(url);
 }
 
 </script>

@@ -19,5 +19,8 @@ export default {
     },
     funSubirImagen: (id, formdata) => {
         return Api().post(`producto/${id}/subir-imagen`, formdata)
+    },
+    descargarExcel: () => {
+        return Api().get(`/producto/exportarExcel`, {responseType: 'blob'})
     }
 }

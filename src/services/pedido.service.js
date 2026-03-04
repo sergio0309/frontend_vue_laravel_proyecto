@@ -16,5 +16,8 @@ export default {
     },
     funEliminar: (id) => {
         return Api().delete(`pedido/${id}`)
+    },
+    funReportePedido: (id) => {
+        return Api().get(`/pedido/${id}/pdf/list`, {responseType: 'blob'});
     }
 }
